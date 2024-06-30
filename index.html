@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Perguntas da Bíblia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0; /* Cor de fundo de fallback */
+      background-image: url('./image/oio.jpg'); /* Caminho para sua imagem de fundo */
+      background-size: cover; /* Para cobrir toda a área */
+      background-position: center; /* Centraliza a imagem */
+      height: 100vh; /* Altura total da viewport */
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Altura total da viewport */
+    }
+
+    .content {
+      background-color: rgba(255, 255, 255, 0.7); /* Fundo branco com transparência para melhor legibilidade */
+      width: 90%; /* Usar largura relativa para melhor ajuste em dispositivos móveis */
+      max-width: 500px; /* Limitar a largura máxima */
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap; /* Para que as opções quebrem para a próxima linha se não couberem em uma linha */
+    }
+
+    .option {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+      background-color: #e0e0e0;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    
+  <div class="container">
+    <div class="content">
+      <h1>Jogo de Perguntas da Bíblia</h1>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Quem foi o primeiro homem criado por Deus?",
+        options: ["Adão", "Abel", "Moisés", "Noé"],
+        answer: "Adão"
+      },
+      {
+        question: "Quantos livros tem o Novo Testamento?",
+        options: ["27", "39", "66", "13"],
+        answer: "27"
+      },
+      {
+        question: "Qual é o livro que vem antes de Apocalipse no Novo Testamento?",
+        options: ["2 Pedro", "Judas", "1 João", "3 João"],
+        answer: "3 João"
+      },
+      {
+        question: "Quem foi o rei que construiu o templo de Jerusalém?",
+        options: ["Davi", "Salomão", "José", "Josué"],
+        answer: "Salomão"
+      },
+      {
+        question: "Quem é conhecido como o 'pai da fé' no Antigo Testamento? Gênesis 15:6 ",
+        options: ["Moisés", "Abraão", "Jacó", "Josué"],
+        answer: "Abraão"
+      },
+      {
+        question: "Segundo a Bíblia, que dia da semana Deus determinou ser o sétimo dia? Êxodo 20:10",
+        options: ["Domingo", "Sábado", "Terça", "Segunda"],
+        answer: "Sábado"
+      },
+      {
+        question: "Podemos ignorar este mandamento? 1 João 2:4",
+        options: ["Sim", "Não"],
+        answer: "Não"
+      },
+      {
+        question: "Que sinal identifica o povo de Deus? Ezequiel 20:20",
+        options: ["Sexta-feira", "Sábado", "Domingo"],
+        answer: "Sábado"
+      },
+      {
+        question: "Qual a função da lei de Deus? Êxodo 20:1-17",
+        options: ["A função da lei é mostrar que somos pecadores e que precisamos de um salvador.",
+          "Mostrar que o ser humano consegui comprimir toda a lei sozinho."],
+        answer: "A função da lei é mostrar que somos pecadores e que precisamos de um salvador."
+      },
+      {
+        question: "Qual a causa primária da morte? Gênesis 2:16-17",
+        options: ["A Idade", "Doenças", "O Pecado", "Satanas"],
+        answer: "O Pecado"
+      }
+      // Adicione mais perguntas conforme necessário
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const questionElement = document.getElementById("question");
+      const optionsElement = document.getElementById("options");
+      const resultElement = document.getElementById("result");
+
+      if (currentQuestion < questions.length) {
+        questionElement.textContent = questions[currentQuestion].question;
+        optionsElement.innerHTML = '';
+
+        questions[currentQuestion].options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.textContent = option;
+          button.className = 'option';
+          button.addEventListener('click', () => checkAnswer(option));
+          optionsElement.appendChild(button);
+        });
+
+        resultElement.textContent = '';
+      } else {
+        questionElement.textContent = '';
+        optionsElement.textContent = '';
+        resultElement.textContent = `Fim do jogo! Seu score final é: ${score}`;
+      }
+    }
+
+    function checkAnswer(selectedAnswer) {
+      const correctAnswer = questions[currentQuestion].answer;
+      if (selectedAnswer === correctAnswer) {
+        score++;
+        document.getElementById("result").textContent = "Resposta correta!";
+      } else {
+        document.getElementById("result").textContent = "Resposta incorreta!";
+      }
+      currentQuestion++;
+      setTimeout(loadQuestion, 1000); // Carrega a próxima pergunta após 1 segundo
+    }
+
+    // Inicia o jogo
+    loadQuestion();
+  </script>
+  
+</body>
+</html>
